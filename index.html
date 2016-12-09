@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Neighborhood Map</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container" >
+    <div class="list"><h2>Vernon Hills, IL</h2><h3>Points of Interest</h3>
+      <ul data-bind="foreach: locationList">
+        <li data-bind="text: title, click: $parent.setLocation, click: $parent.selectLocation"></li>
+      </ul>
+    </div>
+    <div id="map"></div>
+  </div>
+  
+  <script src="js/libs/knockout-3.2.0.js"></script>
+  <script src="js/libs/jquery.min.js"></script>
+  <script src="js/script.js"></script>
+  
+  <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDe34IsjrPQpTAhfHZ4UvtZhfhXrgphFrA&v=3&callback=initMap">
+  </script>
+
+</body>
+</html>
