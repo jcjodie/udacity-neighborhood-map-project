@@ -23,12 +23,11 @@ var locations = [
 
 var Location = function(data){
   this.title = data.title;
-  
-  //should not be observable
-  //add a marker property to pass the marker property through to observable array
+  this.marker=data.marker;
+  // add a marker property to pass the marker property through to observable array
   }
 
-//from Cat Clicker knockout lesson
+// from Cat Clicker knockout lesson
 var ViewModel = function(){
   var self=this;
 
@@ -46,9 +45,9 @@ var ViewModel = function(){
     toggleBounce(location.marker);
   };
 };
-//applies bindings to ViewModel
+// applies bindings to ViewModel
 
-//from Google Maps APIs lessons
+// from Google Maps APIs lessons
 var map;
 var marker;     
 var markers = [];
@@ -79,9 +78,9 @@ function initMap() {
   locations[i].marker=marker;
   // push the marker to array of markers
   markers.push(marker);
-  ko.applyBindings(new ViewModel());
+ 
 
-  //animate marker
+  // animate marker
   marker.addListener('click', function(){
     toggleBounce(this);
     console.log(this);
@@ -93,9 +92,10 @@ function initMap() {
   });
 
   }
+  ko.applyBindings(new ViewModel());
   showLocations()
 }
-//animate marker - from Google Maps APIs documentation 
+// animate marker - from Google Maps APIs documentation 
 function toggleBounce(marker) {
   console.log(marker);
 
@@ -108,7 +108,7 @@ function toggleBounce(marker) {
 
 //  opens infowindow when the marker is clicked- from Google Maps APIs lessons
 populateInfoWindow= function(marker, infowindow) {
-  // Check to make sure the infowindow is not already opened on this marker
+  // check to make sure the infowindow is not already opened on this marker
   if (infowindow.marker != marker) {
     infowindow.marker = marker;
     infowindow.setContent('<div>' + marker.title + '</div>');
@@ -118,7 +118,7 @@ populateInfoWindow= function(marker, infowindow) {
       infowindow.marker = null;
     });
 
-    // //Open the info window on the correct marker
+    // open the info window on the correct marker
     infowindow.open(map, marker);
   }
       
