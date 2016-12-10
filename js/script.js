@@ -22,7 +22,10 @@ var locations = [
   ];
 
 var Location = function(data){
-  this.title = ko.observable(data.title);
+  this.title = data.title;
+  
+  //should not be observable
+  //add a marker property to pass the marker property through to observable array
   }
 
 //from Cat Clicker knockout lesson
@@ -39,12 +42,11 @@ var ViewModel = function(){
  
   this.selectLocation = function(location){
     console.log(marker);
-    populateInfoWindow(marker, infowindow);
-    toggleBounce(marker);
+    populateInfoWindow(location.marker, infowindow);
+    toggleBounce(location.marker);
   };
 };
 //applies bindings to ViewModel
-ko.applyBindings(new ViewModel());
 
 //from Google Maps APIs lessons
 var map;
@@ -74,9 +76,11 @@ function initMap() {
     id: i
     });
 
-  locations.marker=marker;
+  locations[i].marker=marker;
   // push the marker to array of markers
   markers.push(marker);
+  ko.applyBindings(new ViewModel());
+
   //animate marker
   marker.addListener('click', function(){
     toggleBounce(this);
