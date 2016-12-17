@@ -1,6 +1,6 @@
 var locations = [
   {
-  title: 'Hawthorn Mall',
+  title: 'Westfield Hawthorn Mall',
   location: {lat : 42.2430635, lng: -87.9499412}
   },
   {
@@ -8,30 +8,34 @@ var locations = [
   location: {lat: 42.2282382, lng : -87.9477957}
   },
   {
-  title: 'Vernon Hills Station',
-  location: {lat: 42.216341, lng : -87.963705}
+  title: 'Century Park',
+  location: {lat: 42.2467455, lng : -87.96193249999999}
   },
   {
-  title: 'Cook Memorial Public Library District',
-  location: {lat: 42.2390978, lng : -87.96908580000002}
+  title: 'Family Aquatic Center',
+  location: {lat: 42.232613, lng : -87.97110149999999}
   },
   {
-  title: "Portillo's Restaurants",
+  title: 'Portillos Restaurant',
   location: {lat:  42.2399431, lng : -87.9591927}
   }
   ];
 
-// var Location = function(data){
-//   this.title = data.title;
-//   this.marker = data.marker;
-//   // add a marker property to pass the marker property through to observable array
-//   };
+var Location = function(data){
+  this.title = data.title;
+  this.marker = data.marker;
+  // add a marker property to pass the marker property through to observable array
+  }
 
 // from Cat Clicker knockout lesson
 var ViewModel = function(){
   var self=this;
 
-  self.locationList = ko.observableArray(locations);
+  this.locationList = ko.observableArray([]);
+
+  locations.forEach(function(locationItem){
+    self.locationList.push(new Location(locationItem));
+    });
 
   this.currentLocation = ko.observable(this.locationList()[0]);
  
@@ -41,23 +45,21 @@ var ViewModel = function(){
     toggleBounce(location.marker);
   };
 
-  //input box
-  self.submittedLocation = ko.observable('');//assigns text entered to submittedLocation
-  //from Code Pen by John Mavroudis Udacity Coach
-  self.submittedLocationList = ko.computed(function(){
-    return ko.utils.arrayFilter(self.locationList(), function(location){
-      //var setVisible;
-      var showMarker = location.title.toLowerCase().indexOf(self.submittedLocation().toLowerCase());
-      if(showMarker>= 0){
-        location.marker.setVisible(true);
-        } else {
-        location.marker.setVisible(false);
-        }
-        //check to see if searched for location is in locations list, indexOf returns -1 when the value was not in the array 
-      return location.title.toLowerCase().indexOf(self.submittedLocation().toLowerCase()) >= 0; 
-    });
-  });
+  self.submittedLocation = ko.observable("");
+  this.submittedLocationList = ko.computed(function(){
+    var submittedLocations = [];
+    if (!submittedLocations){
+     self.locationList()
+    }else {
+      return submittedLocations; 
+    }
+
+    })
+   console.log(this.submittedLocationList)
+  
+  //clear submittedLocationList when text is entered
 };
+// applies bindings to ViewModel
 
 // from Google Maps APIs lessons
 var map;
@@ -71,6 +73,7 @@ function initMap() {
     zoom: 13,
     mapTypeControl: false
   });
+  
   
   infowindow = new google.maps.InfoWindow();
   // create an array of markers on initialize
@@ -104,54 +107,36 @@ function initMap() {
 
   }
   ko.applyBindings(new ViewModel());
-  showLocations();
+  showLocations()
 }
-
 // animate marker - from Google Maps APIs documentation 
 function toggleBounce(marker) {
   console.log(marker);
+
   marker.setAnimation(google.maps.Animation.BOUNCE);
   setTimeout(function(){
   marker.setAnimation(google.maps.Animation.null); }, 750);
   }
 
-// opens infowindow when the marker is clicked- from Google Maps APIs lessons
+
+
+//  opens infowindow when the marker is clicked- from Google Maps APIs lessons
 populateInfoWindow= function(marker, infowindow) {
   // check to make sure the infowindow is not already opened on this marker
   if (infowindow.marker != marker) {
     infowindow.marker = marker;
+    infowindow.setContent('<div>' + marker.title + '</div>');
+    infowindow.open(map, marker);
     // make sure the marker property is cleared if the infowindow is closed
     infowindow.addListener('closeclick', function() {
       infowindow.marker = null;
     });
-  }
 
-//from your moving company lesson
-var wikiElem;
-var urlLocationTitle = marker.title;
-console.log(urlLocationTitle);
-var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + urlLocationTitle + '&format=json&callback=wikiCallback';
-var articleStr;
-
-$.ajax({url: wikiUrl, dataType: "jsonp", success: function(response){
-var articleList = response[1];
-
-for (var i = 0; i < articleList.length; i++) {
-    articleStr = articleList[i];
-    console.log(articleStr);
-    var url = 'http://en.wikipedia.org/wiki/' + articleStr;
-    wikiElem = '<a href="'+ url + '">' + articleStr + '</a>';
-    console.log(wikiElem);
-    infowindow.setContent('<div>' + marker.title + '</div><a>'+ wikiElem +'</a>');
+    // open the info window on the correct marker
     infowindow.open(map, marker);
+  }
+      
 }
-}
-
-}).error(function(e){
-  wikiElem = "failed to get wikipedia resources";
-});  
-};
-
 // loop through the markers array and display them
 function showLocations() {
   var bounds = new google.maps.LatLngBounds();
@@ -163,16 +148,20 @@ function showLocations() {
   map.fitBounds(bounds);
 }
 
+ 
+//knockout observables: list, filter
+//drop down menu or text input to filter list and markers that load
+
+
+// third party APIs in info windows
+
 //APIs should load asynch
 
 //need error messages when API requests fail, or it shouldn't affect the UI
 //if using jquery and ajax() can use .fail()method for example
 //also see article in project details about block websites with hosts file
-//see 11 min mark in webcast - rubric
-//test "offline" in debugging in chrome near device icon
+
 //indicate in README what API you used
 //and in your interface
 
 //mobile responsive
-
-//minified
