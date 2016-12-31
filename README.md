@@ -1,4 +1,8 @@
 # neighborhood-map-project
-Udacity Neighborhood Map Project
-Please go to https://jcjodie.github.io/neighborhood-map-project/
-used Wikipedia API
+
+#Running the App
+-Download the neighborhood map project files.
+-Open the index.html file in your browser.
+
+#APIs
+used Wikipedia API, Google Map API.

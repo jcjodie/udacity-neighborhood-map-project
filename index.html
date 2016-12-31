@@ -10,23 +10,22 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="list">
+    <main class="container">
+        <section class="list">
             <h2>Vernon Hills, IL</h2>
             <h3>Points of Interest</h3>
-            <input data-bind="textInput: submittedLocation, valueUpdate: 'keyup'" placeholder="Locations" />
+            <input data-bind="textInput: submittedLocation, valueUpdate: 'keyup'" placeholder="Locations">
             <ul data-bind="foreach: submittedLocationList()">
                 <li data-bind="text: title, click: $parent.selectLocation"></li>
             </ul>
-        </div>
-        <div id="map"></div>
-    </div>
+        </section>
+        <section id="map"></section>
+    </main>
 
     <script src="js/libs/knockout-3.2.0.js"></script>
     <script src="js/libs/jquery.min.js"></script>
     <script src="js/script.js"></script>
-
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDe34IsjrPQpTAhfHZ4UvtZhfhXrgphFrA&v=3&callback=initMap">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDe34IsjrPQpTAhfHZ4UvtZhfhXrgphFrA&v=3&callback=googleSuccess" onerror="googleError()">
     </script>
 
 </body>
