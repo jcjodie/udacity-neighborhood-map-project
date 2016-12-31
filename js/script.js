@@ -137,7 +137,7 @@ populateInfoWindow = function(marker, infowindow) {
     var wikiElem;
     var urlLocationTitle = marker.title;
     console.log(urlLocationTitle);
-    var wikiUrl = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + urlLocationTitle + '&format=json&callback=wikiCallback';
+    var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + urlLocationTitle + '&format=json&callback=wikiCallback';
     //wikipedia api
     var articleStr;
 
@@ -151,7 +151,7 @@ populateInfoWindow = function(marker, infowindow) {
             for (var i = 0; i < articleList.length; i++) {
                 articleStr = articleList[i];
                 console.log(articleStr);
-                var url = 'http://en.wikipedia.org/wiki/' + articleStr;
+                var url = 'https://en.wikipedia.org/wiki/' + articleStr;
                 wikiElem = '<a target="_blank" href="' + url + '">' + articleStr + '</a>';
                 console.log(wikiElem);
                 infowindow.setContent('<div>' + marker.title + '</div><a>' + wikiElem + '</a>');
